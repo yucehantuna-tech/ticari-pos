@@ -5,10 +5,8 @@ export default function Kasa() {
   const [s, setS] = useState(null);
 
   async function load() {
-    const x = await invoke("kasa_summary");
-    setS(x);
+    setS(await invoke("kasa_summary"));
   }
-
   useEffect(()=>{ load(); }, []);
 
   if (!s) return <div className="muted">Yükleniyor...</div>;

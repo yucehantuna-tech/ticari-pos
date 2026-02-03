@@ -7,6 +7,9 @@ import Satis from "./pages/Satis.jsx";
 import Urunler from "./pages/Urunler.jsx";
 import Cari from "./pages/Cari.jsx";
 import Kasa from "./pages/Kasa.jsx";
+import Raporlar from "./pages/Raporlar.jsx";
+import Fis from "./pages/Fis.jsx";
+import Etiket from "./pages/Etiket.jsx";
 
 export default function App() {
   return (
@@ -22,6 +25,12 @@ export default function App() {
             <Route path="/urunler" element={<Urunler />} />
             <Route path="/cari" element={<Cari />} />
             <Route path="/kasa" element={<Kasa />} />
+            <Route path="/raporlar" element={<Raporlar />} />
+
+            {/* Yazdırma sayfaları */}
+            <Route path="/fis/:id" element={<Fis />} />
+            <Route path="/etiket/:id" element={<Etiket />} />
+
             <Route path="*" element={<div>Sayfa bulunamadı</div>} />
           </Routes>
         </div>
@@ -29,3 +38,5 @@ export default function App() {
     </div>
   );
 }
+
+
