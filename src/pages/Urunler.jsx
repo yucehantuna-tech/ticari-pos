@@ -5,29 +5,25 @@ export default function Urunler() {
   const [name, setName] = useState("");
   const [barcode, setBarcode] = useState("");
   const [price, setPrice] = useState("");
-  const [items, setItems] = useState([]);
-  const [msg, setMsg] = useState("");
+  const [list, setList] = useState([]);
 
-  async function refresh() {
-    const list = await invoke("product_list");
-    setItems(list);
+  async function load() {
+    const data = await invoke("product_list");
+    setList(data);
   }
 
-  useEffect(() => { refresh(); }, []);
-
-  async function add() {
-    setMsg("");
-    const p = parseFloat(price || "0");
-    if (!name.trim()) return setMsg("Ürün adı boş olamaz.");
+  async function save() {
+    if (!name) return;
     await invoke("product_add", {
-      name: name.trim(),
-      barcode: barcode.trim() ? barcode.trim() : null,
-      price: isNaN(p) ? 0 : p
+      name,
+      barcode: barcode || null,
+      price: parseFloat(price || "0")
     });
     setName(""); setBarcode(""); setPrice("");
-    setMsg("Kaydedildi ✔");
-    refresh();
+    load();
   }
+
+  useEffect(() => { load(); }, []);
 
   return (
     <div>
@@ -35,32 +31,20 @@ export default function Urunler() {
 
       <div className="card">
         <div className="row">
-          <input className="input" value={name} onChange={e=>setName(e.target.value)} placeholder="Ürün adı" />
-          <input className="input" value={barcode} onChange={e=>setBarcode(e.target.value)} placeholder="Barkod" />
-          <input className="input" value={price} onChange={e=>setPrice(e.target.value)} placeholder="Satış ₺" />
-          <button className="btn" onClick={add}>Kaydet</button>
+          <input className="input" placeholder="Ürün adı" value={name} onChange={e=>setName(e.target.value)} />
+          <input className="input" placeholder="Barkod" value={barcode} onChange={e=>setBarcode(e.target.value)} />
+          <input className="input" placeholder="Fiyat ₺" value={price} onChange={e=>setPrice(e.target.value)} />
+          <button className="btn" onClick={save}>Kaydet</button>
         </div>
-        {msg && <div className="muted" style={{ marginTop: 10 }}>{msg}</div>}
       </div>
 
-      <div className="card" style={{ marginTop: 12 }}>
-        <div className="muted" style={{ marginBottom: 8 }}>Kayıtlı Ürünler</div>
-
-        <div className="table">
-          <div className="tHead" style={{ gridTemplateColumns: "1fr 1fr .6fr" }}>
-            <div>Ürün</div><div>Barkod</div><div>Fiyat</div>
+      <div className="card" style={{marginTop:12}}>
+        {list.map(p => (
+          <div key={p.id} className="row between">
+            <div>{p.name}</div>
+            <div>₺ {p.price.toFixed(2)}</div>
           </div>
-
-          {items.length === 0 ? (
-            <div className="tRow muted">Henüz ürün yok</div>
-          ) : items.map(x => (
-            <div key={x.id} className="tHead" style={{ gridTemplateColumns: "1fr 1fr .6fr", background: "transparent", borderTop: "1px solid var(--line)" }}>
-              <div>{x.name}</div>
-              <div className="muted">{x.barcode || "-"}</div>
-              <div>₺ {Number(x.price).toFixed(2)}</div>
-            </div>
-          ))}
-        </div>
+        ))}
       </div>
     </div>
   );
