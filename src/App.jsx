@@ -1,4 +1,5 @@
-﻿import { Routes, Route, Navigate } from "react-router-dom";
+﻿import LicenseGate from "./components/LicenseGate.jsx";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar.jsx";
 import Header from "./components/Header.jsx";
 
@@ -13,7 +14,7 @@ import Etiket from "./pages/Etiket.jsx";
 
 export default function App() {
   return (
-    <div className="app">
+    <LicenseGate><div className="app">
       <Sidebar />
       <div className="content">
         <Header />
@@ -35,8 +36,10 @@ export default function App() {
           </Routes>
         </div>
       </div>
-    </div>
-  );
-}
+    </div></LicenseGate>); }
+
+
+
+
 
 

@@ -23,7 +23,7 @@ export default function Sidebar() {
         <Item to="/urunler">Ürünler</Item>
         <Item to="/cari">Cari</Item>
         <Item to="/kasa">Kasa</Item>
-      </nav>
+              <Item to="/ayarlar">Ayarlar</Item>`n      </nav>
 
       <div className="sidebarFooter">
         <div className="pill">v0.1</div>
@@ -31,3 +31,4 @@ export default function Sidebar() {
     </aside>
   );
 }
+

@@ -144,3 +144,6 @@ h2{margin:0 0 12px 0}
 /* Modal */
 .modalBack{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:9999}
 .modal{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+
+.receipt.thermal.w58{width:58mm;max-width:58mm}
+.receipt.thermal.w80{width:80mm;max-width:80mm}

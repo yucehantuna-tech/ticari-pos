@@ -19,13 +19,13 @@ export default function FisThermal() {
 
   if (!head) return <div className="muted">Yükleniyor...</div>;
 
-  return (
+    const w = (localStorage.getItem("print_width") || "58");`n  return (
     <div className="printArea">
       <div className="printToolbar noPrint">
         <button className="btn" onClick={() => window.print()}>Termal Yazdır</button>
       </div>
 
-      <div className="receipt thermal">
+      <div className={"receipt thermal " + (w==="80" ? "w80" : "w58")}>
         <div className="rTitle">Ticari POS</div>
         <div className="muted">Fiş #{head.id}</div>
         <div className="muted">{head.created_at}</div>
@@ -54,3 +54,4 @@ export default function FisThermal() {
     </div>
   );
 }
+

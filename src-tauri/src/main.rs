@@ -407,17 +407,48 @@ fn auth_check(app: tauri::AppHandle, pin: String) -> Result<bool, String> {
   Ok(saved.trim() == pin.trim())
 }
 
+
+#[tauri::command]
+fn machine_id() -> Result<String, String> {
+  let host = std::env::var("COMPUTERNAME").unwrap_or_else(|_| "unknown".into());
+  let user = std::env::var("USERNAME").unwrap_or_else(|_| "unknown".into());
+  Ok(format!("{}-{}", host, user))
+}
+
+fn license_path(app: &tauri::AppHandle) -> Result<std::path::PathBuf, String> {
+  let mut dir = app.path().app_data_dir().map_err(|e| e.to_string())?;
+  std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+  dir.push("license.key");
+  Ok(dir)
+}
+
+#[tauri::command]
+fn license_set(app: tauri::AppHandle, key: String) -> Result<(), String> {
+  std::fs::write(license_path(&app)?, key).map_err(|e| e.to_string())?;
+  Ok(())
+}
+
+#[tauri::command]
+fn license_get(app: tauri::AppHandle) -> Result<Option<String>, String> {
+  let p = license_path(&app)?;
+  if !p.exists() { return Ok(None); }
+  Ok(Some(std::fs::read_to_string(p).map_err(|e| e.to_string())?))
+}
+
 fn main() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![
-      product_add, product_list,
+    .invoke_handler(tauri::generate_handler![product_add, product_list,
       customer_add, customer_list, customer_balance, credit_payment,
       sale_create, sales_recent, sale_items,
-      kasa_summary
-    ])
+      kasa_summary, machine_id, license_get, license_set, ])
     .run(tauri::generate_context!())
     .expect("error while running app");
 }
+
+
+
+
+
 
 
 
