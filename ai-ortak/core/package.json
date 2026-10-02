@@ -1,1 +1,1 @@
-{"type":"module","scripts":{"test":"node research-engine.test.mjs"}}
+{"type":"module","scripts":{"test":"node sandbox.test.mjs"}}
