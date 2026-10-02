@@ -3,7 +3,7 @@ import {URL} from "node:url";
 import {researchProducts} from "../core/research-engine.mjs";
 
 const port=Number(process.env.PORT||8787);
-const model=process.env.OPENAI_MODEL||"gpt-5.6";
+const model=process.env.OPENAI_MODEL||"";
 
 function json(res,status,data){
   res.writeHead(status,{"content-type":"application/json; charset=utf-8","access-control-allow-origin":"*"});
